@@ -21,6 +21,7 @@ mkdir -p ~/catkin_ws
 cd ~/catkin_ws
 ```
 然后把gitee上的src文件夹放到catkin_ws目录下，如下所示：
+
 <img src="./src/docs/src.png" width="450" height="auto">
 
 打开终端，输入：
@@ -71,9 +72,10 @@ roslaunch dm_controllers load_dm_hw.launch
 <img src="./src/docs/yaml.png" width="300" height="auto">
 
 然后在~/catkin_ws/src/dm\_controllers/src/DmController.cpp修改如下地方：
-<img src="./src/docs/control1.png" >
 
-<img src="./src/docs/control2.png" >
+<img src="./src/docs/control1.png" width="600" height="auto">
+
+<img src="./src/docs/control2.png" width="600" height="auto">
 
 然后检查usb转can模块的连接，在终端输入：
 ```shell
