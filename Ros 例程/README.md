@@ -37,7 +37,7 @@ source ~/catkin_ws/devel/setup.bash
 然后在终端输入：
 ```
 cd
-source ~/catkin_ws/devel/setup.bash
+source .bashrc
 ```
 ## 使用说明
 #### 硬件连接
@@ -77,6 +77,17 @@ roslaunch dm_controllers load_dm_hw.launch
 
 
 <img src="./src/docs/control2.png" width="800" height="auto">
+
+然后编译，打开终端，输入：
+```shell
+cd ~/catkin_ws
+catkin build
+```
+然后在终端输入：
+```
+cd
+source .bashrc
+```
 
 然后检查usb转can模块的连接，在终端输入：
 ```shell
