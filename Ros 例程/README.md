@@ -73,9 +73,10 @@ roslaunch dm_controllers load_dm_hw.launch
 
 然后在~/catkin_ws/src/dm\_controllers/src/DmController.cpp修改如下地方：
 
-<img src="./src/docs/control1.png" width="600" height="auto">
+<img src="./src/docs/control1.png" width="800" height="auto">
 
-<img src="./src/docs/control2.png" width="600" height="auto">
+
+<img src="./src/docs/control2.png" width="800" height="auto">
 
 然后检查usb转can模块的连接，在终端输入：
 ```shell
