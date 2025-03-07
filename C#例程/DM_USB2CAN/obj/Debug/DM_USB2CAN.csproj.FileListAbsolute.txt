@@ -1,0 +1,14 @@
+D:\code\DM_USB2CANTest\DM_USB2CAN\bin\Debug\DM_USB2CAN.dll
+D:\code\DM_USB2CANTest\DM_USB2CAN\bin\Debug\System.IO.Ports.dll
+D:\code\DM_USB2CANTest\DM_USB2CAN\bin\Debug\System.IO.Ports.xml
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CAN.csproj.AssemblyReference.cache
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CAN.Form1.resources
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CAN.Properties.Resources.resources
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CAN.csproj.GenerateResource.cache
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CAN.csproj.CoreCompileInputs.cache
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CAN.csproj.Up2Date
+D:\code\DM_USB2CANTest\DM_USB2CAN\bin\Debug\DM_USB2CANTEST.exe.config
+D:\code\DM_USB2CANTest\DM_USB2CAN\bin\Debug\DM_USB2CANTEST.exe
+D:\code\DM_USB2CANTest\DM_USB2CAN\bin\Debug\DM_USB2CANTEST.pdb
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CANTEST.exe
+D:\code\DM_USB2CANTest\DM_USB2CAN\obj\Debug\DM_USB2CANTEST.pdb
