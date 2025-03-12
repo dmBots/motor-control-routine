@@ -4,14 +4,14 @@
 * @brief:      	bsp_can_init(void)
 * @param:       void
 * @retval:     	void
-* @details:    	CAN Ê¹ÄÜ
+* @details:    	CAN ä½¿èƒ½
 ************************************************************************
 **/
 void bsp_can_init(void)
 {
 	
 	can_filter_init();
-	HAL_FDCAN_Start(&hfdcan1);                               //¿ªÆôFDCAN
+	HAL_FDCAN_Start(&hfdcan1);                               //å¼€å¯FDCAN
 //	HAL_FDCAN_Start(&hfdcan2);
 //	HAL_FDCAN_Start(&hfdcan3);
 //	HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_WATERMARK, 0);
@@ -29,22 +29,22 @@ void bsp_can_init(void)
 * @brief:      	can_filter_init(void)
 * @param:       void
 * @retval:     	void
-* @details:    	CANÂË²¨Æ÷³õÊ¼»¯
+* @details:    	CANæ»¤æ³¢å™¨åˆå§‹åŒ–
 ************************************************************************
 **/
 void can_filter_init(void)
 {
 	FDCAN_FilterTypeDef fdcan_filter;
 	
-	fdcan_filter.IdType = FDCAN_STANDARD_ID;                       //±ê×¼ID
-	fdcan_filter.FilterIndex = 0;                                  //ÂË²¨Æ÷Ë÷Òı                   
+	fdcan_filter.IdType = FDCAN_STANDARD_ID;                       //æ ‡å‡†ID
+	fdcan_filter.FilterIndex = 0;                                  //æ»¤æ³¢å™¨ç´¢å¼•                   
 	fdcan_filter.FilterType = FDCAN_FILTER_MASK;                   
-	fdcan_filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;           //¹ıÂËÆ÷0¹ØÁªµ½FIFO0  
+	fdcan_filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;           //è¿‡æ»¤å™¨0å…³è”åˆ°FIFO0  
 	fdcan_filter.FilterID1 = 0x00;                               
 	fdcan_filter.FilterID2 = 0x00;
 
-	HAL_FDCAN_ConfigFilter(&hfdcan1,&fdcan_filter); 		 				  //½ÓÊÕID2
-	//¾Ü¾ø½ÓÊÕÆ¥Åä²»³É¹¦µÄ±ê×¼IDºÍÀ©Õ¹ID,²»½ÓÊÜÔ¶³ÌÖ¡
+	HAL_FDCAN_ConfigFilter(&hfdcan1,&fdcan_filter); 		 				  //æ¥æ”¶ID2
+	//æ‹’ç»æ¥æ”¶åŒ¹é…ä¸æˆåŠŸçš„æ ‡å‡†IDå’Œæ‰©å±•ID,ä¸æ¥å—è¿œç¨‹å¸§
 	HAL_FDCAN_ConfigGlobalFilter(&hfdcan1,FDCAN_REJECT,FDCAN_REJECT,FDCAN_REJECT_REMOTE,FDCAN_REJECT_REMOTE);
 	HAL_FDCAN_ConfigFifoWatermark(&hfdcan1, FDCAN_CFG_RX_FIFO0, 1);
 //	HAL_FDCAN_ConfigFifoWatermark(&hfdcan1, FDCAN_CFG_RX_FIFO1, 1);
@@ -71,7 +71,7 @@ void bsp_fdcan_set_baud(hcan_t *hfdcan, uint8_t mode, uint8_t baud)
 			case CAN_BR_500K: 	nom_brp=1 ; nom_seg1=139; nom_seg2=20; nom_sjw=20; break; // sample point 87.5%
 			case CAN_BR_1M:		nom_brp=1 ; nom_seg1=59 ; nom_seg2=20; nom_sjw=20; break; // sample point 75%
 		}
-		dat_brp=1 ; dat_seg1=29; dat_seg2=10; dat_sjw=10;	// Êı¾İÓòÄ¬ÈÏ1M
+		dat_brp=1 ; dat_seg1=29; dat_seg2=10; dat_sjw=10;	// æ•°æ®åŸŸé»˜è®¤1M
 		hfdcan->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
 	}
 	/*	data_baud	 = 80M/brp/(1+seg1+seg2)
@@ -90,7 +90,7 @@ void bsp_fdcan_set_baud(hcan_t *hfdcan, uint8_t mode, uint8_t baud)
 			case CAN_BR_4M: 	dat_brp=1 ; dat_seg1=14; dat_seg2=5 ; dat_sjw=5 ; break;	// sample point 75%
 			case CAN_BR_5M:		dat_brp=1 ; dat_seg1=13; dat_seg2=2 ; dat_sjw=2 ; break;	// sample point 87.5%
 		}
-		nom_brp=1 ; nom_seg1=59 ; nom_seg2=20; nom_sjw=20; // ÖÙ²ÃÓòÄ¬ÈÏ1M
+		nom_brp=1 ; nom_seg1=59 ; nom_seg2=20; nom_sjw=20; // ä»²è£åŸŸé»˜è®¤1M
 		hfdcan->Init.FrameFormat = FDCAN_FRAME_FD_BRS;
 	}
 	
@@ -113,12 +113,12 @@ void bsp_fdcan_set_baud(hcan_t *hfdcan, uint8_t mode, uint8_t baud)
 /**
 ************************************************************************
 * @brief:      	fdcanx_send_data(FDCAN_HandleTypeDef *hfdcan, uint16_t id, uint8_t *data, uint32_t len)
-* @param:       hfdcan£ºFDCAN¾ä±ú
-* @param:       id£ºCANÉè±¸ID
-* @param:       data£º·¢ËÍµÄÊı¾İ
-* @param:       len£º·¢ËÍµÄÊı¾İ³¤¶È
+* @param:       hfdcanï¼šFDCANå¥æŸ„
+* @param:       idï¼šCANè®¾å¤‡ID
+* @param:       dataï¼šå‘é€çš„æ•°æ®
+* @param:       lenï¼šå‘é€çš„æ•°æ®é•¿åº¦
 * @retval:     	void
-* @details:    	·¢ËÍÊı¾İ
+* @details:    	å‘é€æ•°æ®
 ************************************************************************
 **/
 uint8_t fdcanx_send_data(hcan_t *hfdcan, uint16_t id, uint8_t *data, uint32_t len)
@@ -152,16 +152,16 @@ uint8_t fdcanx_send_data(hcan_t *hfdcan, uint16_t id, uint8_t *data, uint32_t le
     pTxHeader.MessageMarker=0;
  
 	if(HAL_FDCAN_AddMessageToTxFifoQ(hfdcan, &pTxHeader, data)!=HAL_OK) 
-		return 1;//·¢ËÍ
+		return 1;//å‘é€
 	return 0;	
 }
 /**
 ************************************************************************
 * @brief:      	fdcanx_receive(FDCAN_HandleTypeDef *hfdcan, uint8_t *buf)
-* @param:       hfdcan£ºFDCAN¾ä±ú
-* @param:       buf£º½ÓÊÕÊı¾İ»º´æ
-* @retval:     	½ÓÊÕµÄÊı¾İ³¤¶È
-* @details:    	½ÓÊÕÊı¾İ
+* @param:       hfdcanï¼šFDCANå¥æŸ„
+* @param:       bufï¼šæ¥æ”¶æ•°æ®ç¼“å­˜
+* @retval:     	æ¥æ”¶çš„æ•°æ®é•¿åº¦
+* @details:    	æ¥æ”¶æ•°æ®
 ************************************************************************
 **/
 uint8_t fdcanx_receive(hcan_t *hfdcan, uint16_t *rec_id, uint8_t *buf)
@@ -189,7 +189,7 @@ uint8_t fdcanx_receive(hcan_t *hfdcan, uint16_t *rec_id, uint8_t *buf)
 		else if(pRxHeader.DataLength==FDCAN_DLC_BYTES_64)
 			len = 64;
 		
-		return len;//½ÓÊÕÊı¾İ
+		return len;//æ¥æ”¶æ•°æ®
 	}
 	return 0;	
 }
@@ -217,8 +217,8 @@ void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorSt
 	}
 	if(ErrorStatusITs & FDCAN_IR_EP)
 	{
-		MX_FDCAN1_Init();
-		bsp_can_init();
+		// MX_FDCAN1_Init();
+		// bsp_can_init();
 	}
 }
 
