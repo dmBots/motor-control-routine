@@ -210,8 +210,8 @@ void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorSt
 	}
 	if(ErrorStatusITs & FDCAN_IR_EP)
 	{
-		MX_FDCAN1_Init();
-		bsp_can_init();
+		// MX_FDCAN1_Init();
+		// bsp_can_init();
 	}
 }
 
