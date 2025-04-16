@@ -41,7 +41,7 @@ make
 
 1. 首先检查can设备，打开一个终端，输入：
 ```shell
-ip -details link show type can
+ip -brief link | grep can
 ```
 2. 然后输入：
 ```shell
