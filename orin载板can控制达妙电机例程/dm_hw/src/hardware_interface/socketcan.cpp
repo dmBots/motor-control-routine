@@ -38,7 +38,8 @@
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <utility>
-
+#include <linux/can.h>        
+#include <linux/can/raw.h> 
 
 namespace damiao
 {
@@ -85,6 +86,14 @@ bool SocketCAN::open(const std::string& interface, boost::function<void(const ca
     std::cerr << "[ERROR] Error: Unable to create a CAN socket" << std::endl;
     return false;
   }
+  /*int enable_canfd = 1;
+  if (setsockopt(sock_fd_, SOL_CAN_RAW, CAN_RAW_FD_FRAMES, &enable_canfd, sizeof(enable_canfd)) != 0)
+  {
+    std::cerr << "[ERROR] Failed to enable CAN FD support on socket" << std::endl;
+    ::close(sock_fd_);
+    sock_fd_ = -1;
+    return false;
+  }*/
   char name[16] = {};  // avoid stringop-truncation
   strncpy(name, interface.c_str(), interface.size());
   strncpy(interface_request_.ifr_name, name, IFNAMSIZ);
