@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+    <node name="dev_sn" pkg="dmbot_serial" type="dev_sn" output="screen"></node>
+
+</launch>
