@@ -527,7 +527,7 @@ void Motor_Control::canframeCallback(const can_frame& frame)
   for (const auto& frame_stamp : read_buffer_)
   {
     can_frame frame = frame_stamp.frame;
-    uint16_t canID = (uint16_t(frame.data[1]) << 8) | frame.data[0];
+    uint16_t canID =  (frame.data[0])&0x0F;
     
     if(read_write_save==true&& motors.find(canID) != motors.end())
     {//这是发送保存参数或者写参数或者读参数返回的数据
