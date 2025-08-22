@@ -46,6 +46,12 @@ make
 ```shell
 ip -brief link | grep can
 ```
+如果没有输出，就输入下面指令，加载内核模块：
+```shell
+sudo modprobe mttcan
+```
+然后再检查can设备。
+
 2. 然后输入：
 ```shell
 sudo ip link set can0 up type can bitrate 1000000
