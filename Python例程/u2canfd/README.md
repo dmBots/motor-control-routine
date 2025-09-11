@@ -34,6 +34,9 @@ cd ~/catkin_ws
 首先用最新上位机给电机设置5M波特率。
 
 然后给**USB转CANFD设备**设置权限，在终端输入：
+
+***注意：mac和windows系统不需要设置权限***
+
 ```shell
 sudo nano /etc/udev/rules.d/99-usb.rules
 ```
