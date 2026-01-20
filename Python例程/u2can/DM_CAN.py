@@ -1,4 +1,4 @@
-import time 
+from time import sleep
 import numpy as np
 from enum import IntEnum
 from struct import unpack
@@ -171,7 +171,7 @@ class MotorControl:
         data_buf[0:4] = P_desired_uint8s
         data_buf[4:8] = V_desired_uint8s
         self.__send_data(motorid, data_buf)
-        time.sleep(0.001)
+        sleep(0.001)
         self.recv()  # receive the data from serial port
 
     def control_Vel(self, Motor, Vel_desired):
