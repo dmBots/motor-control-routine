@@ -1,4 +1,4 @@
-from time import sleep
+import time 
 import numpy as np
 from enum import IntEnum
 from struct import unpack
@@ -88,6 +88,7 @@ class MotorControl:
         [12.5 ,   10 , 12],  # DMJH11
         [12.566,  20, 120],  # DM6248P
         [12.566,  50,   5],  # DM3507
+        [12.5,   200,  10],  # DM3519
     ]
 
     def __init__(self, serial_device):
@@ -313,18 +314,20 @@ class MotorControl:
         packets = self.__extract_packets(data_recv)
         for packet in packets:
             data = packet[7:15]
-            CANID = (packet[6] << 24) | (packet[5] << 16) | (packet[4] << 8) | packet[3]
+            CANID = (packet[3] << 0) | (packet[4] << 8) | (packet[5] << 16) | (packet[6] << 24) # 改成小端拼法
             CMD = packet[1]
             self.__process_packet(data, CANID, CMD)
 
     def recv_set_param_data(self):
-        data_recv = self.serial_.read_all()
+        # 加上 data_save（避免丢帧）
+        data_recv = b''.join([self.data_save, self.serial_.read_all()])
         packets = self.__extract_packets(data_recv)
         for packet in packets:
             data = packet[7:15]
-            CANID = (packet[6] << 24) | (packet[5] << 16) | (packet[4] << 8) | packet[3]
+            CANID = (packet[3] << 0) | (packet[4] << 8) | (packet[5] << 16) | (packet[6] << 24) # 改成小端拼法
             CMD = packet[1]
             self.__process_set_param_packet(data, CANID, CMD)
+
 
     def __process_packet(self, data, CANID, CMD):
         if CMD == 0x11:
@@ -643,6 +646,7 @@ class DM_Motor_Type(IntEnum):
     DMJH11 = 12
     DM6248P = 13
     DM3507 = 14
+    DM3519 = 15  #手动补充DMS3519-1EC型号
 
 class DM_variable(IntEnum):
     UV_Value = 0      # 欠压值 (Under Voltage threshold)
