@@ -1,5 +1,7 @@
 # Motor Control Examples
 
+[EN](./README.en.md) | [中文](./README.md) | [GitHub English](https://github.com/dmBots/dmBot/blob/master/5.控制例程/电机控制例程/README.md)
+
 ## Overview
 - This folder is the entry point for motor control examples. Each language or runtime keeps its own subtree.
 - Detailed procedures stay in the subtree-specific README or workflow document.

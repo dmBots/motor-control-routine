@@ -1,5 +1,7 @@
 # 电机控制例程
 
+中文 | [EN](./README.en.md) | [GitHub English](https://github.com/dmBots/dmBot/blob/master/5.控制例程/电机控制例程/README.md)
+
 ## 概述
 - 这里是电机控制例程分类入口，按语言和运行环境拆分不同示例。
 - 详细流程不再堆在分类 README 中，而是放在各子目录自己的 README 或流程文档里。
