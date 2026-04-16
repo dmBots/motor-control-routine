@@ -1,36 +1,22 @@
-# motor-routine
+# Motor Control Examples
 
-#### Description
-电机控制例程
+## Overview
+- This folder is the entry point for motor control examples. Each language or runtime keeps its own subtree.
+- Detailed procedures stay in the subtree-specific README or workflow document.
 
-#### Software Architecture
-Software architecture description
+## Documentation / Resources
+- [C# Examples/](C#例程/)
+- [C++ Examples/](C++例程/)
+- [Matlab Examples/](Matlab例程/)
+- [Python Examples/](Python例程/)
+- [ROS1 Examples/](ROS1 例程/)
+- [STM32 Examples/](stm32例程/)
+- [Orin Carrier CAN Example/](orin载板can控制达妙电机例程/)
 
-#### Installation
+## Quick Start
+- Enter the relevant subtree first, then read its own README for the exact workflow.
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## Status
+- EN: translation pending
+- ZH: source material exists in this subtree
+- TBD: subtree details are maintained separately
