@@ -1,6 +1,6 @@
 # 电机控制例程
 
-中文 | [EN](./README.en.md) | [GitHub English](https://github.com/dmBots/dmBot/blob/master/5.Control%20Examples/Motor%20Control%20Examples/README.md)
+中文 | [EN](./README.en.md) | GitHub 英文展示仓：`dmBots/dmBot`
 
 ## 概述
 - 这里是电机控制例程分类入口，按语言和运行环境拆分不同示例。

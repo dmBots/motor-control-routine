@@ -1,6 +1,6 @@
 # Motor Control Examples
 
-[EN](./README.en.md) | [中文](./README.md) | [GitHub English](https://github.com/dmBots/dmBot/blob/master/5.Control%20Examples/Motor%20Control%20Examples/README.md)
+[EN](./README.en.md) | [中文](./README.md) | GitHub showcase repo: `dmBots/dmBot`
 
 ## Overview
 - This folder is the entry point for motor control examples, split by language and runtime.
