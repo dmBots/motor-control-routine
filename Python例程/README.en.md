@@ -1,17 +1,22 @@
 # Python Examples
 
+[EN](./README.en.md) | [中文](./README.md)
+
 ## Overview
-- Translation pending.
-- Use [README.md](README.md) as the current main entry for the Python example subtree.
+- This is the entry page for the Python example subtree.
+- Choose `u2can/` for USB-to-CAN and `u2canfd/` for USB-to-CANFD.
+- Detailed dependency, device-check, and runtime steps stay in the child README pages and their `USAGE.md` or `WORKFLOW.md` files.
 
 ## Documentation / Resources
-- [README.md](README.md) - current entry page
-- [u2can/](u2can/) - examples for USB-to-CAN devices
-- [u2canfd/](u2canfd/) - examples for USB-to-CANFD devices
+- [u2can/README.md](u2can/README.md)
+- [u2canfd/README.md](u2canfd/README.md)
+- [README.md](README.md)
 
 ## Quick Start
-- Open [README.md](README.md) first, then choose `u2can/` or `u2canfd/` according to your adapter.
+- Open [u2can/README.md](u2can/README.md) if you use USB-to-CAN.
+- Open [u2canfd/README.md](u2canfd/README.md) if you use USB-to-CANFD.
 
 ## Status
-- EN: translation pending
-- ZH: source material exists in this subtree
+- EN: lightweight entry
+- ZH: main entry remains in `README.md`
+- TBD: detailed subtree translation is selective

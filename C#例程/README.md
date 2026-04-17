@@ -1,11 +1,20 @@
-# DM_USB2CAN C#例程
+# DM_USB2CAN C# 例程
 
-#### 介绍
-1. 封装了 DM 的 USB2CAN 模块收发的dll库 ———— DM_USB2CAN.dll
-2. 发送协议相关的参见 DM CAN控制相关协议格式.xlsx 和 USB to CAN.xlsx
-3. 有关官方例程写在 Form1.cs 中
+## 概述
+- 这里是 C# 例程入口，适合先判断资源位置和基本接入方式。
+- 具体接入步骤已整理到 [USAGE.md](USAGE.md)。
 
-#### 使用说明
+## 文档 / 资源
+- [USAGE.md](USAGE.md) - 基本接入步骤
+- [DM_USB2CAN.dll](DM_USB2CAN.dll) - DLL 库
+- [DM CAN控制相关协议格式.xlsx](DM%20CAN控制相关协议格式.xlsx) - 控制协议说明
+- [USB to CAN.xlsx](USB%20to%20CAN.xlsx) - USB 转 CAN 帧格式说明
+- [DM_USB2CAN/](DM_USB2CAN/) - 示例工程
 
-1.  c# 项目中添加引用，选择 DM_USB2CAN.dll
-2.  参考控制协议以及官方例程进行开发
+## 快速开始
+- 先看 [USAGE.md](USAGE.md)，再把 `DM_USB2CAN.dll` 引入项目并对照协议文档开发。
+
+## 状态
+- ZH: 主版入口
+- EN: Translation pending
+- TBD: 更细的工程说明按示例工程维护

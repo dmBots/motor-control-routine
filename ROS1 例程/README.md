@@ -1,11 +1,14 @@
 # ROS1 例程
 
+中文 | [EN](./README.en.md)
+
 ## 概述
 - 本目录是基于 `ros-control` 的达妙电机 ROS1 示例入口。
 - 原 README 中的环境准备、USB 转 CANFD / USB 转 CAN 两条使用流程、串口权限和多电机修改说明已迁移到 [USAGE.md](./USAGE.md)。
 
 ## 文档 / 资源
 - [USAGE.md](./USAGE.md)
+- [../README.md](../README.md) - 返回电机控制例程总入口
 - [u2canfd/](./u2canfd/)
 - [u2can/](./u2can/)
 - [README.en.md](./README.en.md)
@@ -15,5 +18,5 @@
 
 ## 状态
 - ZH: 主版入口
-- EN: Translation pending
+- EN: `README.en.md` 可用
 - TBD: 截图与分支细节后续按需要补充

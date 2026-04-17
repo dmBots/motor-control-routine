@@ -1,24 +1,27 @@
 # Motor Control Examples
 
-[EN](./README.en.md) | [中文](./README.md) | [GitHub English](https://github.com/dmBots/dmBot/blob/master/5.控制例程/电机控制例程/README.md)
+[EN](./README.en.md) | [中文](./README.md) | [GitHub English](https://github.com/dmBots/dmBot/blob/master/5.Control%20Examples/Motor%20Control%20Examples/README.md)
 
 ## Overview
-- This folder is the entry point for motor control examples. Each language or runtime keeps its own subtree.
-- Detailed procedures stay in the subtree-specific README or workflow document.
+- This folder is the entry point for motor control examples, split by language and runtime.
+- This page only helps you choose a subtree. Detailed install, build, and runtime steps stay in each subtree's own `README.md`, `USAGE.md`, or `WORKFLOW.md`.
 
 ## Documentation / Resources
-- [C# Examples/](C#例程/)
-- [C++ Examples/](C++例程/)
-- [Matlab Examples/](Matlab例程/)
-- [Python Examples/](Python例程/)
-- [ROS1 Examples/](ROS1 例程/)
-- [STM32 Examples/](stm32例程/)
-- [Orin Carrier CAN Example/](orin载板can控制达妙电机例程/)
+- [C#例程/README.md](<C#例程/README.md>)
+- [C++例程/README.md](C++例程/README.md)
+- [Matlab例程/README.md](Matlab例程/README.md)
+- [Python例程/README.md](Python例程/README.md)
+- [ROS1 例程/README.md](ROS1 例程/README.md)
+- [stm32例程/README.md](stm32例程/README.md)
+- [orin载板can控制达妙电机例程/README.md](orin载板can控制达妙电机例程/README.md)
 
 ## Quick Start
-- Enter the relevant subtree first, then read its own README for the exact workflow.
+- If you want PC-side examples first, open `C++例程` or `Python例程`.
+- If you need ROS integration, open `ROS1 例程`.
+- If you are working with the Orin carrier CAN flow, open `orin载板can控制达妙电机例程`.
+- If you need raw STM32 projects or version notes, open `stm32例程`.
 
 ## Status
-- EN: translation pending
-- ZH: source material exists in this subtree
+- EN: lightweight entry
+- ZH: main entry remains in `README.md`
 - TBD: subtree details are maintained separately
