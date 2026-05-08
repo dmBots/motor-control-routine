@@ -39,6 +39,13 @@ class Control_Mode_Code(IntEnum):
     VEL = 3
     POS_FORCE = 4
 
+control_mode_to_code = {
+    Control_Mode.MIT_MODE: Control_Mode_Code.MIT,
+    Control_Mode.POS_VEL_MODE: Control_Mode_Code.POS_VEL,
+    Control_Mode.VEL_MODE: Control_Mode_Code.VEL,
+    Control_Mode.POS_FORCE_MODE: Control_Mode_Code.POS_FORCE,
+}
+
 @dataclass
 class DmActData:
     motorType: DM_Motor_Type  # 是哪款电机
@@ -287,29 +294,10 @@ class Motor_Control:
         self.motors[DM_Motor.GetMasterId()] = DM_Motor
 
     def enable_all(self):
-        # data=[4,0,0,0]
-        # for motor in self.motors.values():
-        #         for _ in range(5):
-        #             self.write_motor_param(motor,0x23,data)
-        #             time.sleep(0.002)  # 2000 microseconds = 2 milliseconds
-        #             self.write_motor_param(motor,0x23,data)
-        #             time.sleep(0.002)
-        # for motor in self.motors.values():
-        #     self.read_motor_param(motor,10)
-        # for motor in self.motors.values():
-        #     parm=motor.get_param_as_uint32(10)
-        #     print(f"id: {motor.GetCanId()} mode is {parm}", file=sys.stderr)
-
-        # for motor in self.motors.values():
-        #     self.switchControlMode(motor,Control_Mode_Code.MIT)
-        # for motor in self.motors.values():
-        #     self.read_motor_param(motor,10)
-        # for motor in self.motors.values():
-        #     parm=motor.get_param_as_uint32(10)
-        #     print(f"id: {motor.GetCanId()} mode is {parm}", file=sys.stderr)
-
         for motor in self.motors.values():
-            self.switchControlMode(motor,Control_Mode_Code.VEL)
+            mode = motor.GetMotorMode()
+            code = control_mode_to_code[mode]
+            self.switchControlMode(motor,code)
         for motor in self.motors.values():
             self.read_motor_param(motor,10)
         for motor in self.motors.values():
@@ -550,12 +538,8 @@ class Motor_Control:
             receive_tau = uint_to_float(tau_uint, -limit_param_receive[2], limit_param_receive[2], 12)
 
             m.receive_data(receive_q, receive_dq, receive_tau)
-
             interval=m.updateTimeInterval()
-            
             #print(f"motor id is: {canID}: {interval}", file=sys.stderr)
-            
-            
            
 running =threading.Event()
 running.set()  # 初始为 True
@@ -604,59 +588,58 @@ if __name__ == "__main__":
         mstid9=0x19
         init_data1.append(DmActData(
                     motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid2,
+                    mst_id=mstid2))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
                     can_id=canid1,
                     mst_id=mstid1))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid2,
-        #             mst_id=mstid2))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid3,
-        #             mst_id=mstid3))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid4,
-        #             mst_id=mstid4))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid5,
-        #             mst_id=mstid5))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid6,
-        #             mst_id=mstid6))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid7,
-        #             mst_id=mstid7))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid8,
-        #             mst_id=mstid8))
-        # init_data1.append(DmActData(
-        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-        #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
-        #             can_id=canid9,
-        #             mst_id=mstid9))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid3,
+                    mst_id=mstid3))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid4,
+                    mst_id=mstid4))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid5,
+                    mst_id=mstid5))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid6,
+                    mst_id=mstid6))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid7,
+                    mst_id=mstid7))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid8,
+                    mst_id=mstid8))
+        init_data1.append(DmActData(
+                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+                    can_id=canid9,
+                    mst_id=mstid9))
         # init_data2.append(DmActData(
         #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
         #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
         #             can_id=canid2,
         #             mst_id=mstid2))
 
-        #with Motor_Control(1000000, 5000000,"14AA044B241402B10DDBDAFE448040BB",init_data1) as control\
-        #       ,Motor_Control(1000000, 5000000, "AA96DF2EC013B46B1BE4613798544085", init_data2) as control2:
+        #with Motor_Control(1000000, 5000000,"14AA044B241402B10DDBDAFE448040BB",init_data1) as control1
+        #with Motor_Control(1000000, 5000000, "AA96DF2EC013B46B1BE4613798544085", init_data2) as control2:
         with Motor_Control(1000000, 5000000,"14AA044B241402B10DDBDAFE448040BB",init_data1) as control:
-        #control=Motor_Control(1000000, 5000000,"14AA044B241402B10DDBDAFE448040BB",init_data1) 
             while running.is_set():
                     desired_duration = 0.001  # 秒
                     current_time = time.perf_counter()
@@ -671,22 +654,31 @@ if __name__ == "__main__":
                     # control.control_mit(control.getMotor(canid8), 0.0, 0.0, 0.0, 0.0, 0.0)
                     # control.control_mit(control.getMotor(canid9), 0.0, 0.0, 0.0, 0.0, 0.0)
                     
+                    control.control_vel(control.getMotor(canid2), 2.0)
                     control.control_vel(control.getMotor(canid1), 2.0)
+                    control.control_vel(control.getMotor(canid3), 2.0)
+                    control.control_vel(control.getMotor(canid4), 2.0)
+                    control.control_vel(control.getMotor(canid5), 2.0)
+                    control.control_vel(control.getMotor(canid6), 2.0)
+                    control.control_vel(control.getMotor(canid7), 2.0)
+                    control.control_vel(control.getMotor(canid8), 2.0)
+                    control.control_vel(control.getMotor(canid9), 2.0)
                     for id in range(1): 
-                        pos = control.getMotor(canid1).Get_Position()
-                        vel = control.getMotor(canid1).Get_Velocity()
-                        tau = control.getMotor(canid1).Get_tau()
-                        interval = control.getMotor(canid1).getTimeInterval()
+                        pos = control.getMotor(canid2).Get_Position()
+                        vel = control.getMotor(canid2).Get_Velocity()
+                        tau = control.getMotor(canid2).Get_tau()
+                        interval = control.getMotor(canid2).getTimeInterval()
 
-                        print(f"canid is: {canid1} pos: {pos} vel: {vel} effort: {tau} time(s): {interval}", file=sys.stderr)
-
-                    #control2.control_vel(control2.getMotor(canid2), -3.0)
-                    #control.enable_all()
-                    sleep_till = current_time + desired_duration
-                    now = time.perf_counter()
-                    if sleep_till > now:
-                        time.sleep(sleep_till - now)
-                    
+                        print(f"canid is: {canid2} pos: {pos:.3f} vel: {vel:.3f} effort: {tau:.3f} time(s): {interval:.4f}", file=sys.stderr)
+                        print(f"canid is: {canid1} pos: {control.getMotor(canid1).Get_Position():.3f} vel: {control.getMotor(canid1).Get_Velocity():.3f} time(s): {control.getMotor(canid1).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid3} pos: {control.getMotor(canid3).Get_Position():.3f} vel: {control.getMotor(canid3).Get_Velocity():.3f} time(s): {control.getMotor(canid3).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid4} pos: {control.getMotor(canid4).Get_Position():.3f} vel: {control.getMotor(canid4).Get_Velocity():.3f} time(s): {control.getMotor(canid4).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid5} pos: {control.getMotor(canid5).Get_Position():.3f} vel: {control.getMotor(canid5).Get_Velocity():.3f} time(s): {control.getMotor(canid5).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid6} pos: {control.getMotor(canid6).Get_Position():.3f} vel: {control.getMotor(canid6).Get_Velocity():.3f} time(s): {control.getMotor(canid6).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid7} pos: {control.getMotor(canid7).Get_Position():.3f} vel: {control.getMotor(canid7).Get_Velocity():.3f} time(s): {control.getMotor(canid7).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid8} pos: {control.getMotor(canid8).Get_Position():.3f} vel: {control.getMotor(canid8).Get_Velocity():.3f} time(s): {control.getMotor(canid8).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid9} pos: {control.getMotor(canid9).Get_Position():.3f} vel: {control.getMotor(canid9).Get_Velocity():.3f} time(s): {control.getMotor(canid9).getTimeInterval():.4f}", file=sys.stderr)
+                       
             print("The program exited safely.") 
     except Exception as e:
         print(f"Error: hardware interface exception: {e}", file=sys.stderr)
