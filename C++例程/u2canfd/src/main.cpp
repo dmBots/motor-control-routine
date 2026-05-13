@@ -42,7 +42,9 @@ void process_data(std::shared_ptr<damiao::Motor_Control> con, usb_rx_frame_t* fr
       }      
   }
   else
-  {//这是正常返回的位置速度力矩数据
+  {
+      uint8_t err = (uint8_t(frame->payload[0]) >> 4) & 0x0F;
+      //这是正常返回的位置速度力矩数据
       uint16_t q_uint = (uint16_t(frame->payload[1]) << 8) | frame->payload[2];
       uint16_t dq_uint = (uint16_t(frame->payload[3]) << 4) | (frame->payload[4] >> 4);
       uint16_t tau_uint = (uint16_t(frame->payload[4] & 0xf) << 8) | frame->payload[5];
@@ -58,7 +60,7 @@ void process_data(std::shared_ptr<damiao::Motor_Control> con, usb_rx_frame_t* fr
 
       float receive_dq = uint_to_float(dq_uint, -limit_param_receive.DQ_MAX, limit_param_receive.DQ_MAX, 12);
       float receive_tau = uint_to_float(tau_uint, -limit_param_receive.TAU_MAX, limit_param_receive.TAU_MAX, 12);
-      m->second->receive_data(receive_q, receive_dq, receive_tau); 
+      m->second->receive_data(receive_q, receive_dq, receive_tau, err); 
 
       m->second->updateTimeInterval();
   } 
@@ -241,7 +243,7 @@ int main(int argc, char** argv)
       //   .channel=CHANNEL0 });
       
         control = std::make_shared<damiao::Motor_Control>(
-        DEV_USB2CANFD_DUAL,nom_baud,dat_baud,"9D0C2ED8C10B7484E8E683F531E195B1",&init_data);
+        DEV_USB2CANFD,nom_baud,dat_baud,"CB7137534B9DB4B3781310BC81DAABC1",&init_data);
         //接收回调函数注册
         device_hook_to_rec(control->getUSBHw()->getDeviceHandle(),canframeCallback);
 
@@ -256,7 +258,7 @@ int main(int argc, char** argv)
         const duration desired_duration(0.001); // 计算期望周期
         auto current_time = clock::now();
        
-        control->control_mit(*control->getMotor(CHANNEL0,canid1), 0.0, 0.0, 0.0, 0.0, 1.0);
+        control->control_mit(*control->getMotor(CHANNEL0,canid1), 0.0, 0.0, 0.0, 0.0, 0.5);
         // control->control_mit(*control->getMotor(CHANNEL0,canid2), 0.0, 0.0, 0.0, 0.0, 0.0);
         // control->control_mit(*control->getMotor(CHANNEL0,canid3), 0.0, 0.0, 0.0, 0.0, 0.0);
         // control->control_mit(*control->getMotor(CHANNEL0,canid4), 0.0, 0.0, 0.0, 0.0, 0.0);
@@ -287,8 +289,9 @@ int main(int argc, char** argv)
           float pos=control->getMotor(CHANNEL0,id)->Get_Position();
           float vel=control->getMotor(CHANNEL0,id)->Get_Velocity();
           float tau=control->getMotor(CHANNEL0,id)->Get_tau();
+          uint8_t err=control->getMotor(CHANNEL0,id)->Get_Err();
           double time=control->getMotor(CHANNEL0,id)->getTimeInterval();
-          std::cerr<<"id is: "<<id<<" pos: "<<pos<<" vel: "<<vel<<" effort: "<<tau<<" time(s): "<<time<<std::endl;
+          std::cerr<<"id is: "<<id<<" pos: "<<pos<<" vel: "<<vel<<" effort: "<<tau<<" err: "<<std::hex<<(int)err<<std::dec<<" time(s): "<<time<<std::endl;
         }
         
         // for(uint16_t id = 1;id<=1;id++)

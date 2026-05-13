@@ -153,10 +153,11 @@ class Motor:
         return self.delta_time_
 
 
-    def receive_data(self, q: float, dq: float, tau: float):
+    def receive_data(self, q: float, dq: float, tau: float, err: int):
         self.state_q = q
         self.state_dq = dq
         self.state_tau = tau
+        self.state_err = err
 
     def set_param(self, key: int, value):
         v = ValueType()
@@ -198,7 +199,10 @@ class Motor:
 
     def GetCanId(self):
         return self.Can_id  # 获取电机CAN ID
-
+    
+    def Get_err(self):
+        return self.state_err  # 获取电机错误码
+    
     def Get_Position(self):
         return self.state_q
 
@@ -524,6 +528,7 @@ class Motor_Control:
                     self.read_write_save.clear()
                 self.read_write_save.clear()
         else:
+            err = (value.data[0] >> 4) & 0x0F
             q_uint = (value.data[1] << 8) | value.data[2]
             dq_uint = (value.data[3] << 4) | (value.data[4] >> 4)
             tau_uint = ((value.data[4] & 0xf) << 8) | value.data[5]
@@ -536,8 +541,8 @@ class Motor_Control:
             receive_q = uint_to_float(q_uint, -limit_param_receive[0], limit_param_receive[0], 16)
             receive_dq = uint_to_float(dq_uint, -limit_param_receive[1], limit_param_receive[1], 12)
             receive_tau = uint_to_float(tau_uint, -limit_param_receive[2], limit_param_receive[2], 12)
-
-            m.receive_data(receive_q, receive_dq, receive_tau)
+            
+            m.receive_data(receive_q, receive_dq, receive_tau, err)
             interval=m.updateTimeInterval()
             #print(f"motor id is: {canID}: {interval}", file=sys.stderr)
            
@@ -589,48 +594,48 @@ if __name__ == "__main__":
         init_data1.append(DmActData(
                     motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
                     mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid2,
-                    mst_id=mstid2))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
                     can_id=canid1,
                     mst_id=mstid1))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid3,
-                    mst_id=mstid3))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid4,
-                    mst_id=mstid4))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid5,
-                    mst_id=mstid5))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid6,
-                    mst_id=mstid6))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid7,
-                    mst_id=mstid7))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid8,
-                    mst_id=mstid8))
-        init_data1.append(DmActData(
-                    motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
-                    mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
-                    can_id=canid9,
-                    mst_id=mstid9))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid1,
+        #             mst_id=mstid1))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid3,
+        #             mst_id=mstid3))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid4,
+        #             mst_id=mstid4))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid5,
+        #             mst_id=mstid5))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4340,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid6,
+        #             mst_id=mstid6))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid7,
+        #             mst_id=mstid7))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid8,
+        #             mst_id=mstid8))
+        # init_data1.append(DmActData(
+        #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
+        #             mode=Control_Mode.VEL_MODE,        # 如 Control_Mode.MIT_MODE
+        #             can_id=canid9,
+        #             mst_id=mstid9))
         # init_data2.append(DmActData(
         #             motorType=DM_Motor_Type.DM4310,  # 或者具体类型，如 DM_Motor_Type.DM4310
         #             mode=Control_Mode.POS_VEL_MODE,        # 如 Control_Mode.MIT_MODE
@@ -654,30 +659,31 @@ if __name__ == "__main__":
                     # control.control_mit(control.getMotor(canid8), 0.0, 0.0, 0.0, 0.0, 0.0)
                     # control.control_mit(control.getMotor(canid9), 0.0, 0.0, 0.0, 0.0, 0.0)
                     
-                    control.control_vel(control.getMotor(canid2), 2.0)
-                    control.control_vel(control.getMotor(canid1), 2.0)
-                    control.control_vel(control.getMotor(canid3), 2.0)
-                    control.control_vel(control.getMotor(canid4), 2.0)
-                    control.control_vel(control.getMotor(canid5), 2.0)
-                    control.control_vel(control.getMotor(canid6), 2.0)
-                    control.control_vel(control.getMotor(canid7), 2.0)
-                    control.control_vel(control.getMotor(canid8), 2.0)
-                    control.control_vel(control.getMotor(canid9), 2.0)
+                    control.control_vel(control.getMotor(canid1), 1.0)
+                    # control.control_vel(control.getMotor(canid1), 2.0)
+                    # control.control_vel(control.getMotor(canid3), 2.0)
+                    # control.control_vel(control.getMotor(canid4), 2.0)
+                    # control.control_vel(control.getMotor(canid5), 2.0)
+                    # control.control_vel(control.getMotor(canid6), 2.0)
+                    # control.control_vel(control.getMotor(canid7), 2.0)
+                    # control.control_vel(control.getMotor(canid8), 2.0)
+                    # control.control_vel(control.getMotor(canid9), 2.0)
                     for id in range(1): 
-                        pos = control.getMotor(canid2).Get_Position()
-                        vel = control.getMotor(canid2).Get_Velocity()
-                        tau = control.getMotor(canid2).Get_tau()
-                        interval = control.getMotor(canid2).getTimeInterval()
+                        pos = control.getMotor(canid1).Get_Position()
+                        vel = control.getMotor(canid1).Get_Velocity()
+                        tau = control.getMotor(canid1).Get_tau()
+                        err = control.getMotor(canid1).Get_err()
+                        interval = control.getMotor(canid1).getTimeInterval()
 
-                        print(f"canid is: {canid2} pos: {pos:.3f} vel: {vel:.3f} effort: {tau:.3f} time(s): {interval:.4f}", file=sys.stderr)
-                        print(f"canid is: {canid1} pos: {control.getMotor(canid1).Get_Position():.3f} vel: {control.getMotor(canid1).Get_Velocity():.3f} time(s): {control.getMotor(canid1).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid3} pos: {control.getMotor(canid3).Get_Position():.3f} vel: {control.getMotor(canid3).Get_Velocity():.3f} time(s): {control.getMotor(canid3).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid4} pos: {control.getMotor(canid4).Get_Position():.3f} vel: {control.getMotor(canid4).Get_Velocity():.3f} time(s): {control.getMotor(canid4).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid5} pos: {control.getMotor(canid5).Get_Position():.3f} vel: {control.getMotor(canid5).Get_Velocity():.3f} time(s): {control.getMotor(canid5).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid6} pos: {control.getMotor(canid6).Get_Position():.3f} vel: {control.getMotor(canid6).Get_Velocity():.3f} time(s): {control.getMotor(canid6).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid7} pos: {control.getMotor(canid7).Get_Position():.3f} vel: {control.getMotor(canid7).Get_Velocity():.3f} time(s): {control.getMotor(canid7).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid8} pos: {control.getMotor(canid8).Get_Position():.3f} vel: {control.getMotor(canid8).Get_Velocity():.3f} time(s): {control.getMotor(canid8).getTimeInterval():.4f}", file=sys.stderr)
-                        print(f"canid is: {canid9} pos: {control.getMotor(canid9).Get_Position():.3f} vel: {control.getMotor(canid9).Get_Velocity():.3f} time(s): {control.getMotor(canid9).getTimeInterval():.4f}", file=sys.stderr)
+                        print(f"canid is: {canid1} pos: {pos:.3f} vel: {vel:.3f} effort: {tau:.3f} err: {err} time(s): {interval:.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid1} pos: {control.getMotor(canid1).Get_Position():.3f} vel: {control.getMotor(canid1).Get_Velocity():.3f} time(s): {control.getMotor(canid1).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid3} pos: {control.getMotor(canid3).Get_Position():.3f} vel: {control.getMotor(canid3).Get_Velocity():.3f} time(s): {control.getMotor(canid3).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid4} pos: {control.getMotor(canid4).Get_Position():.3f} vel: {control.getMotor(canid4).Get_Velocity():.3f} time(s): {control.getMotor(canid4).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid5} pos: {control.getMotor(canid5).Get_Position():.3f} vel: {control.getMotor(canid5).Get_Velocity():.3f} time(s): {control.getMotor(canid5).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid6} pos: {control.getMotor(canid6).Get_Position():.3f} vel: {control.getMotor(canid6).Get_Velocity():.3f} time(s): {control.getMotor(canid6).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid7} pos: {control.getMotor(canid7).Get_Position():.3f} vel: {control.getMotor(canid7).Get_Velocity():.3f} time(s): {control.getMotor(canid7).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid8} pos: {control.getMotor(canid8).Get_Position():.3f} vel: {control.getMotor(canid8).Get_Velocity():.3f} time(s): {control.getMotor(canid8).getTimeInterval():.4f}", file=sys.stderr)
+                        # print(f"canid is: {canid9} pos: {control.getMotor(canid9).Get_Position():.3f} vel: {control.getMotor(canid9).Get_Velocity():.3f} time(s): {control.getMotor(canid9).getTimeInterval():.4f}", file=sys.stderr)
                        
             print("The program exited safely.") 
     except Exception as e:
