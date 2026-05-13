@@ -43,7 +43,7 @@ void process_data(std::shared_ptr<damiao::Motor_Control> con, usb_rx_frame_t* fr
   }
   else
   {
-      uint8_t err = (uint8_t(frame->payload[0]) >> 4) & 0x0F;
+      int err = (int(frame->payload[0]) >> 4) & 0x0F;
       //这是正常返回的位置速度力矩数据
       uint16_t q_uint = (uint16_t(frame->payload[1]) << 8) | frame->payload[2];
       uint16_t dq_uint = (uint16_t(frame->payload[3]) << 4) | (frame->payload[4] >> 4);
@@ -291,7 +291,7 @@ int main(int argc, char** argv)
           float tau=control->getMotor(CHANNEL0,id)->Get_tau();
           uint8_t err=control->getMotor(CHANNEL0,id)->Get_Err();
           double time=control->getMotor(CHANNEL0,id)->getTimeInterval();
-          std::cerr<<"id is: "<<id<<" pos: "<<pos<<" vel: "<<vel<<" effort: "<<tau<<" err: "<<std::hex<<(int)err<<std::dec<<" time(s): "<<time<<std::endl;
+          std::cerr<<"id is: "<<id<<" pos: "<<pos<<" vel: "<<vel<<" effort: "<<tau<<" err: "<<err<<std::dec<<" time(s): "<<time<<std::endl;
         }
         
         // for(uint16_t id = 1;id<=1;id++)

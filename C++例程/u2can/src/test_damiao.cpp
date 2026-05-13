@@ -3,8 +3,8 @@
 #include <cmath>
 
 
-damiao::Motor M1(damiao::DMH3510,0x01, 0x00);
-damiao::Motor M2(damiao::DM4310,0x02, 0x00);
+damiao::Motor M1(damiao::DM4310,0x01, 0x11);
+// damiao::Motor M2(damiao::DM4310,0x02, 0x00);
 std::shared_ptr<SerialPort> serial;
 damiao::Motor_Control dm(serial);
 
@@ -50,8 +50,8 @@ int main(int argc, char  *argv[])
     // dm.control_vel(M1, q*100);
     // dm.control_pos_vel(M2, q*10,10);
     dm.refresh_motor_status(M1);
-    dm.refresh_motor_status(M2);
-   std::cout<<"motor1--- POS:"<<M1.Get_Position()<<" VEL:"<<M1.Get_Velocity()<<" CUR:"<<M1.Get_tau()<<std::endl;
+    // dm.refresh_motor_status(M2);
+   std::cout<<"motor1--- POS:"<<M1.Get_Position()<<" VEL:"<<M1.Get_Velocity()<<" CUR:"<<M1.Get_tau()<<" ERR:"<<M1.Get_Err()<<std::endl;
     // std::cout<<"motor2--- POS:"<<M2.Get_Position()<<" VEL:"<<M2.Get_Velocity()<<" CUR:"<<M2.Get_tau()<<std::endl;
     usleep(1000);
     // std::cout<<"motor1 pos:"<<M1.Get_Position()<<std::endl;

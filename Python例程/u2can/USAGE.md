@@ -100,7 +100,7 @@ MotorControl1.disable(Motor6)
 
 ```python
 MotorControl1.refresh_motor_status(Motor1)
-print("Motor1:","POS:",Motor1.getPosition(),"VEL:",Motor1.getVelocity(),"TORQUE:",Motor1.getTorque())
+print("Motor1:","POS:",Motor1.getPosition(),"VEL:",Motor1.getVelocity(),"TORQUE:",Motor1.getTorque(),"ERROR:",Motor1.getError())
 ```
 
 通过**refresh_motor_status**这个函数可以获得当前电机的状态，并保存到对应的电机。

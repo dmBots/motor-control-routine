@@ -17,6 +17,7 @@ class Motor:
         self.state_q = float(0)
         self.state_dq = float(0)
         self.state_tau = float(0)
+        self.state_err = int(0)
         self.SlaveID = SlaveID
         self.MasterID = MasterID
         self.MotorType = MotorType
@@ -24,10 +25,11 @@ class Motor:
         self.NowControlMode = Control_Type.MIT
         self.temp_param_dict = {}
 
-    def recv_data(self, q: float, dq: float, tau: float):
+    def recv_data(self, q: float, dq: float, tau: float, err: int):
         self.state_q = q
         self.state_dq = dq
         self.state_tau = tau
+        self.state_err = err
 
     def getPosition(self):
         """
@@ -57,6 +59,15 @@ class Motor:
         """
         return self.state_tau
 
+    def getError(self):
+        """
+        get the error of the motor 获取电机错误码（缓存值）
+        说明：仅在发送控制帧或调用 `refresh_motor_status` 后更新。
+        本函数返回缓存值，不主动轮询设备。
+        :return: the error of the motor 电机错误码（缓存）
+        """
+        return self.state_err
+    
     def getParam(self, RID):
         """
         get the parameter of the motor 获取电机内部的参数，需要提前读取
@@ -170,7 +181,7 @@ class MotorControl:
         data_buf[0:4] = P_desired_uint8s
         data_buf[4:8] = V_desired_uint8s
         self.__send_data(motorid, data_buf)
-        time.sleep(0.001)
+        sleep(0.001)
         self.recv()  # receive the data from serial port
 
     def control_Vel(self, Motor, Vel_desired):
@@ -330,6 +341,7 @@ class MotorControl:
         if CMD == 0x11:
             if CANID != 0x00:
                 if CANID in self.motors_map:
+                    err_int = int((np.uint8(data[0]) >> 4 ) & 0x0f)
                     q_uint = np.uint16((np.uint16(data[1]) << 8) | data[2])
                     dq_uint = np.uint16((np.uint16(data[3]) << 4) | (data[4] >> 4))
                     tau_uint = np.uint16(((data[4] & 0xf) << 8) | data[5])
@@ -340,10 +352,11 @@ class MotorControl:
                     recv_q = uint_to_float(q_uint, -Q_MAX, Q_MAX, 16)
                     recv_dq = uint_to_float(dq_uint, -DQ_MAX, DQ_MAX, 12)
                     recv_tau = uint_to_float(tau_uint, -TAU_MAX, TAU_MAX, 12)
-                    self.motors_map[CANID].recv_data(recv_q, recv_dq, recv_tau)
+                    self.motors_map[CANID].recv_data(recv_q, recv_dq, recv_tau, err_int)
             else:
                 MasterID=data[0] & 0x0f
                 if MasterID in self.motors_map:
+                    err_int = int((np.uint8(data[0]) >> 4 ) & 0x0f)
                     q_uint = np.uint16((np.uint16(data[1]) << 8) | data[2])
                     dq_uint = np.uint16((np.uint16(data[3]) << 4) | (data[4] >> 4))
                     tau_uint = np.uint16(((data[4] & 0xf) << 8) | data[5])
@@ -354,7 +367,7 @@ class MotorControl:
                     recv_q = uint_to_float(q_uint, -Q_MAX, Q_MAX, 16)
                     recv_dq = uint_to_float(dq_uint, -DQ_MAX, DQ_MAX, 12)
                     recv_tau = uint_to_float(tau_uint, -TAU_MAX, TAU_MAX, 12)
-                    self.motors_map[MasterID].recv_data(recv_q, recv_dq, recv_tau)
+                    self.motors_map[MasterID].recv_data(recv_q, recv_dq, recv_tau, err_int)
 
     def __process_set_param_packet(self, data, CANID, CMD):
         if CMD == 0x11 and (data[2] == 0x33 or data[2] == 0x55):

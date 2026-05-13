@@ -194,6 +194,7 @@ namespace damiao
         float state_q=0;
         float state_dq=0;
         float state_tau=0;
+        int state_err=0;
         Limit_param limit_param{};
         DM_Motor_Type Motor_Type;
 
@@ -226,11 +227,12 @@ namespace damiao
             this->limit_param = damiao::limit_param[DM4310];
         }
 
-        void receive_data(float q, float dq, float tau)
+        void receive_data(float q, float dq, float tau, int err)
         {
             this->state_q = q;
             this->state_dq = dq;
             this->state_tau = tau;
+            this->state_err = err;
         }
 
         DM_Motor_Type GetMotorType() const { return this->Motor_Type; }
@@ -266,9 +268,16 @@ namespace damiao
         float Get_tau() const { return this->state_tau; }
 
         /*
+         * @brief get motor error 获取电机错误码
+         * @return motor error 电机错误码
+         */
+        int Get_Err() const { return this->state_err; }
+
+        /*
          * @brief get limit param 获取电机限制参数
          * @return limit_param 电机限制参数
          */
+        
         Limit_param get_limit_param() { return limit_param; }
 
         void set_param(int key, float value)
@@ -600,7 +609,7 @@ namespace damiao
                 };
 
                 auto & data = receive_data.canData;
-
+                int err_int = (int(data[0]) >> 4) & 0x0F;
                 uint16_t q_uint = (uint16_t(data[1]) << 8) | data[2];
                 uint16_t dq_uint = (uint16_t(data[3]) << 4) | (data[4] >> 4);
                 uint16_t tau_uint = (uint16_t(data[4] & 0xf) << 8) | data[5];
@@ -616,7 +625,7 @@ namespace damiao
                     float receive_q = uint_to_float(q_uint, -limit_param_receive.Q_MAX, limit_param_receive.Q_MAX, 16);
                     float receive_dq = uint_to_float(dq_uint, -limit_param_receive.DQ_MAX, limit_param_receive.DQ_MAX, 12);
                     float receive_tau = uint_to_float(tau_uint, -limit_param_receive.TAU_MAX, limit_param_receive.TAU_MAX, 12);
-                    m->receive_data(receive_q, receive_dq, receive_tau);
+                    m->receive_data(receive_q, receive_dq, receive_tau, err_int);
                 }
                 else //why the user set the masterid as 0x00 ???
                 {
@@ -630,7 +639,7 @@ namespace damiao
                     float receive_q = uint_to_float(q_uint, -limit_param_receive.Q_MAX, limit_param_receive.Q_MAX, 16);
                     float receive_dq = uint_to_float(dq_uint, -limit_param_receive.DQ_MAX, limit_param_receive.DQ_MAX, 12);
                     float receive_tau = uint_to_float(tau_uint, -limit_param_receive.TAU_MAX, limit_param_receive.TAU_MAX, 12);
-                    m->receive_data(receive_q, receive_dq, receive_tau);
+                    m->receive_data(receive_q, receive_dq, receive_tau, err_int);
                 }
                 return;
             }

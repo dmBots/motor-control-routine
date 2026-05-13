@@ -41,14 +41,7 @@ namespace damiao
         return delta_time_;
     }
 
-    // void Motor::receive_data(float q, float dq, float tau)
-    // {
-    //     this->state_q = q;
-    //     this->state_dq = dq;
-    //     this->state_tau = tau;
-    // }
-
-    void Motor::receive_data(float q, float dq, float tau, uint8_t err)
+    void Motor::receive_data(float q, float dq, float tau, int err)
     {
         this->state_q = q;
         this->state_dq = dq;

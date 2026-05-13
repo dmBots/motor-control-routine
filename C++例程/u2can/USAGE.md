@@ -145,6 +145,7 @@ dm.control_pos_force(M1,5,500, 1000);
 float pos = M1.Get_Position();  //获得电机位置
 float vel = M1.Get_Velocity();  //获得电机速度
 float tau = M1.Get_tau();       //获得电机力矩
+int err = M1.Get_Err();         //获得电机错误码
 ```
 
 ### 6.电机内部参数更改

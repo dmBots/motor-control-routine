@@ -148,7 +148,7 @@ private:
     float state_q=0.0;
     float state_dq=0.0;
     float state_tau=0.0;
-    uint8_t state_err=0;
+    int state_err=0;
     Limit_param limit_param{};
     DM_Motor_Type Motor_Type;
     Control_Mode mode;
@@ -177,8 +177,7 @@ public:
     void updateTimeInterval(); 
     double getTimeInterval();
 
-    void receive_data(float q, float dq, float tau);
-    void receive_data(float q, float dq, float tau, uint8_t err);
+    void receive_data(float q, float dq, float tau, int err);
     
     DM_Motor_Type GetMotorType() const { return this->Motor_Type; }
     Control_Mode  GetMotorMode() const { return this->mode; }
@@ -190,7 +189,7 @@ public:
     float Get_Position() const { return this->state_q; }
     float Get_Velocity() const { return this->state_dq; }
     float Get_tau() const { return this->state_tau; }
-    uint8_t Get_Err() const { return this->state_err; }
+    int Get_Err() const { return this->state_err; }
     void set_mode(Control_Mode value){ this->mode = value; }
     void set_param(int key, float value);
     void set_param(int key, uint32_t value);
