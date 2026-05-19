@@ -4,9 +4,15 @@ import usb.util
 def list_u2canfd_devices():
     target_vid = 0x34B7
     target_pid = 0x6877
+    dual_target_pid = 0x6632
+    target_pids = {target_pid, dual_target_pid}
 
     # 查找所有匹配设备
-    devices = usb.core.find(find_all=True, idVendor=target_vid, idProduct=target_pid)
+    devices = usb.core.find(
+        find_all=True,
+        idVendor=target_vid,
+        custom_match=lambda dev: dev.idProduct in target_pids,
+    )
 
     for i, dev in enumerate(devices):
         try:
@@ -29,4 +35,3 @@ def list_u2canfd_devices():
 
 if __name__ == "__main__":
     list_u2canfd_devices()
-
