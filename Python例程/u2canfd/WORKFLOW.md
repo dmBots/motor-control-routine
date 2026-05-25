@@ -15,16 +15,12 @@
 Miniconda3 + Python3.13
 
 ## 安装和编译
-### Windows
+
 打开终端，创建并激活conda环境后，安装python版本的usb库和dmcan-sdk库，输入：
 ```shell
 pip3 install pyusb dmcan-sdk
 ```
-### Ubuntu22.04
-打开终端，创建并激活conda环境后，安装python版本的usb库和dmcan-sdk库，输入：
-```shell
-pip3 install pyusb dmcan-sdk
-```
+
 需要安装libusb库的1.0.29版本，进入conda环境后输入：
 ```shell
 conda install -c conda-forge libusb
