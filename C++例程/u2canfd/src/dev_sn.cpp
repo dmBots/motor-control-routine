@@ -31,8 +31,11 @@ int main() {
             continue;
         }
         
-        // 只处理有供应商ID和产品ID的设备
-        if (desc.idVendor != 0x34B7 || desc.idProduct != 0x6877) {
+        if (desc.idVendor != 0x34B7) {
+            continue;
+        }
+        // 单路 双路设备
+        if (desc.idProduct != 0x6877 && desc.idProduct != 0x6632) {
             continue;
         }
         
