@@ -7,7 +7,7 @@
 - Detailed install, build, and runtime steps stay in each subtree's own `README.md`, `USAGE.md`, or `WORKFLOW.md`.
 
 ## Documentation / Resources
-- [C#例程/README.md](<C#例程/README.md>)
+- [C#例程/README.md](C%23例程/README.md)
 - [C++例程/README.md](C++例程/README.md)
 - [Matlab例程/README.md](Matlab例程/README.md)
 - [Python例程/README.md](Python例程/README.md)

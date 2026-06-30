@@ -7,7 +7,7 @@
 - 具体安装、编译、运行和调参流程保留在各子目录的 `README.md`、`USAGE.md` 或 `WORKFLOW.md` 中。
 
 ## 文档 / 资源
-- [C#例程/README.md](<C#例程/README.md>)
+- [C#例程/README.md](C%23例程/README.md)
 - [C++例程/README.md](C++例程/README.md)
 - [Matlab例程/README.md](Matlab例程/README.md)
 - [Python例程/README.md](Python例程/README.md)

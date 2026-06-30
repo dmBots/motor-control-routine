@@ -10,7 +10,6 @@
 - [WORKFLOW.md](WORKFLOW.md)
 - [../README.md](../README.md) - 返回 Python 例程总入口
 - [docs/](docs/)
-- [src/](src/)
 - [damiao.py](damiao.py)
 - [dev_sn.py](dev_sn.py)
 
