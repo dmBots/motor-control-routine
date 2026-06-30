@@ -1,27 +1,24 @@
 # 电机控制例程
 
-中文 | [EN](./README.en.md) | GitHub 英文仓：`dmBots/dmBot`
+这里维护偏整机、平台、控制流程和运行环境相关的电机控制案例。
 
-## 概述
-- 本目录提供电机控制例程入口，按语言和运行环境拆分不同示例。
-- 具体安装、编译、运行和调参流程保留在各子目录的 `README.md`、`USAGE.md` 或 `WORKFLOW.md` 中。
+## 目录
 
-## 文档 / 资源
-- [C#例程/README.md](C%23例程/README.md)
-- [C++例程/README.md](C++例程/README.md)
-- [Matlab例程/README.md](Matlab例程/README.md)
-- [Python例程/README.md](Python例程/README.md)
-- [ROS1 例程/README.md](ROS1 例程/README.md)
-- [stm32例程/README.md](stm32例程/README.md)
-- [orin载板can控制达妙电机例程/README.md](orin载板can控制达妙电机例程/README.md)
+- `Matlab例程/`：Matlab 环境下的控制示例。
+- `ROS1 例程/`：ROS1 相关示例。
+- `stm32例程/`：STM32 裸机或嵌入式工程示例。
+- `orin载板can控制达妙电机例程/`：Orin 载板 CAN 控制示例。
 
-## 快速开始
-- PC 侧例程请参见 `C++例程` 或 `Python例程`。
-- ROS 相关内容请参见 `ROS1 例程`。
-- Orin 载板 CAN 控制联调请参见 `orin载板can控制达妙电机例程`。
-- 裸机工程和项目版本差异请参见 `stm32例程`。
+## 已迁移内容
 
-## 状态
-- ZH: 主版入口
-- EN: `README.en.md` 可用
-- TBD: 子例程细节按各自目录维护
+以下 PC 端 USB2CAN/USB2CANFD SDK 调用示例已迁移到 `../电机SDK/`：
+
+- `C#例程/`
+- `C++例程/`
+- `Python例程/`
+
+## 维护规则
+
+- 与 SDK 调用、语言绑定、USB2CAN/USB2CANFD 二次开发直接相关的内容放入 `../电机SDK/`。
+- 与具体控制平台、整机流程、控制算法演示相关的内容保留在本目录。
+
