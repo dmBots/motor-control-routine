@@ -1,0 +1,42 @@
+# IDE/editor
+.vscode/
+.idea/
+.marscode/
+.agents/
+.codex/
+
+# Build outputs
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+*.o
+*.a
+*.so
+*.out
+test_motor
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Logs and local temp
+*.log
+.log/
+.install/
+tmp/
+*.tmp
+
+# Local env and credential material
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+
+# Release archives generated locally
+*.zip
+*.tar.gz
+*.tgz
