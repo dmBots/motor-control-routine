@@ -1,23 +1,23 @@
-# 电机控制例程
+# Motor Control Examples
 
-这里维护偏整机、平台、控制流程和运行环境相关的电机控制案例。
+This folder keeps motor control examples that are tied to platforms, runtime environments, full control flows, or embedded projects.
 
-## 目录
+## Directories
 
-- `ROS1 例程/`：ROS1 相关示例。
-- `stm32例程/`：STM32 裸机或嵌入式工程示例。
-- `orin载板can控制达妙电机例程/`：Orin 载板 CAN 控制示例。
+- `ROS1 例程/`: ROS1 examples.
+- `stm32例程/`: STM32 bare-metal or embedded project examples.
+- `orin载板can控制达妙电机例程/`: Orin carrier-board CAN control examples.
 
-## 已迁移内容
+## Moved Content
 
-以下 PC 端 USB2CAN/USB2CANFD SDK 调用示例已迁移到 `../电机SDK/`：
+The PC-side USB2CAN/USB2CANFD SDK examples have moved to `../电机SDK/`:
 
 - `C#例程/`
 - `C++例程/`
 - `Matlab例程/`
 - `Python例程/`
 
-## 维护规则
+## Maintenance Rule
 
-- 与 SDK 调用、语言绑定、USB2CAN/USB2CANFD 二次开发直接相关的内容放入 `../电机SDK/`。
-- 与具体控制平台、整机流程、控制算法演示相关的内容保留在本目录。
+- SDK calls, language bindings, and USB2CAN/USB2CANFD secondary-development examples belong in `../电机SDK/`.
+- Platform, full-system, control-flow, and algorithm demo examples stay here.
